@@ -1,152 +1,1695 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Football Betting Demo</title>
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BongDaWin - Trang Cá Cược Bóng Đá Hàng Đầu</title>
+    <style>
+        :root {
+            --primary: #1e40af;
+            --secondary: #3b82f6;
+            --accent: #f59e0b;
+            --bg-dark: #0f172a;
+            --bg-light: #1e293b;
+            --text-light: #f8fafc;
+            --text-gray: #94a3b8;
+            --success: #10b981;
+            --danger: #ef4444;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            line-height: 1.6;
+        }
+        
+        header {
+            background-color: var(--bg-light);
+            padding: 1rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--accent);
+        }
+        
+        .logo span {
+            color: var(--text-light);
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav ul li {
+            margin-left: 1.5rem;
+        }
+        
+        nav ul li a {
+            color: var(--text-light);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        nav ul li a:hover {
+            color: var(--accent);
+        }
+        
+        .auth-buttons {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+        
+        .btn {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--secondary);
+        }
+        
+        .btn-outline {
+            background-color: transparent;
+            border: 1px solid var(--secondary);
+            color: var(--text-light);
+        }
+        
+        .btn-outline:hover {
+            background-color: var(--secondary);
+            color: white;
+        }
+        
+        .btn-accent {
+            background-color: var(--accent);
+            color: white;
+        }
+        
+        .btn-accent:hover {
+            opacity: 0.9;
+        }
+        
+        .btn-success {
+            background-color: var(--success);
+            color: white;
+        }
+        
+        .btn-success:hover {
+            opacity: 0.9;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem;
+        }
+        
+        .hero {
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('/api/placeholder/1200/400') center/cover;
+            padding: 4rem 0;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto 2rem;
+            color: var(--text-gray);
+        }
+        
+        main {
+            display: grid;
+            grid-template-columns: 1fr 3fr;
+            gap: 1rem;
+        }
+        
+        .sidebar {
+            background-color: var(--bg-light);
+            border-radius: 8px;
+            padding: 1rem;
+        }
+        
+        .sidebar h3 {
+            margin-bottom: 1rem;
+            color: var(--text-light);
+            border-bottom: 1px solid var(--secondary);
+            padding-bottom: 0.5rem;
+        }
+        
+        .sport-list {
+            list-style: none;
+        }
+        
+        .sport-list li {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .sport-list li a {
+            display: flex;
+            align-items: center;
+            color: var(--text-light);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .sport-list li a:hover {
+            color: var(--accent);
+        }
+        
+        .sport-icon {
+            margin-right: 0.5rem;
+            width: 24px;
+            height: 24px;
+            background-color: var(--secondary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .sport-icon.active {
+            background-color: var(--accent);
+        }
+        
+        .content {
+            background-color: var(--bg-light);
+            border-radius: 8px;
+            padding: 1rem;
+        }
+        
+        .betting-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .filter-options {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .filter-options button {
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            border: none;
+            padding: 0.3rem 0.8rem;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .filter-options button.active {
+            background-color: var(--secondary);
+            color: white;
+        }
+        
+        .match-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        
+        .match-card {
+            background-color: var(--bg-dark);
+            border-radius: 8px;
+            padding: 1rem;
+            transition: transform 0.3s;
+        }
+        
+        .match-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .match-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+        
+        .match-league {
+            font-size: 0.8rem;
+            color: var(--text-gray);
+        }
+        
+        .match-time {
+            background-color: var(--primary);
+            color: white;
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+        }
+        
+        .match-teams {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .team {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 45%;
+        }
+        
+        .team-logo {
+            width: 50px;
+            height: 50px;
+            background-color: var(--bg-light);
+            border-radius: 50%;
+            margin-bottom: 0.5rem;
+        }
+        
+        .team-name {
+            text-align: center;
+            font-weight: 500;
+        }
+        
+        .match-versus {
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+        
+        .match-odds {
+            display: flex;
+            justify-content: space-between;
+            gap: 0.5rem;
+        }
+        
+        .odds-box {
+            flex: 1;
+            background-color: var(--bg-light);
+            padding: 0.5rem;
+            border-radius: 4px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+        }
+        
+        .odds-box:hover {
+            background-color: var(--secondary);
+        }
+        
+        .odds-box.selected {
+            background-color: var(--secondary);
+            border: 2px solid var(--accent);
+        }
+        
+        .odds-box.selected::after {
+            content: "✓";
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            color: var(--accent);
+            font-weight: bold;
+        }
+        
+        .odds-type {
+            font-size: 0.8rem;
+            color: var(--text-gray);
+        }
+        
+        .odds-value {
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: var(--accent);
+        }
+        
+        .bet-slip {
+            position: fixed;
+            bottom: 0;
+            right: 0;
+            width: 350px;
+            background-color: var(--bg-light);
+            border-radius: 8px 0 0 0;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s;
+            transform: translateY(calc(100% - 40px));
+            z-index: 1000;
+        }
+        
+        .bet-slip:hover,
+        .bet-slip.active {
+            transform: translateY(0);
+        }
+        
+        .bet-slip-header {
+            padding: 0.5rem 1rem;
+            background-color: var(--primary);
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-radius: 8px 0 0 0;
+            cursor: pointer;
+        }
+        
+        .bet-count {
+            background-color: var(--accent);
+            color: white;
+            padding: 0.1rem 0.5rem;
+            border-radius: 50%;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+        
+        .bet-slip-content {
+            padding: 1rem;
+            max-height: 60vh;
+            overflow-y: auto;
+        }
+        
+        .bet-slip-tabs {
+            display: flex;
+            margin-bottom: 1rem;
+            border-bottom: 1px solid var(--secondary);
+        }
+        
+        .bet-slip-tab {
+            flex: 1;
+            text-align: center;
+            padding: 0.5rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .bet-slip-tab.active {
+            border-bottom: 2px solid var(--accent);
+            color: var(--accent);
+            font-weight: bold;
+        }
+        
+        .bet-slip-items {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .bet-item {
+            background-color: var(--bg-dark);
+            padding: 0.5rem;
+            border-radius: 4px;
+            position: relative;
+        }
+        
+        .bet-item-remove {
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            background: none;
+            border: none;
+            color: var(--text-gray);
+            cursor: pointer;
+            font-size: 1rem;
+        }
+        
+        .bet-item-remove:hover {
+            color: var(--danger);
+        }
+        
+        .bet-item-match {
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+        
+        .bet-item-type {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .bet-item-choice {
+            font-weight: bold;
+            color: var(--accent);
+        }
+        
+        .bet-item-odds {
+            background-color: var(--primary);
+            color: white;
+            padding: 0.1rem 0.5rem;
+            border-radius: 4px;
+        }
+        
+        .bet-slip-summary {
+            background-color: var(--bg-dark);
+            padding: 0.5rem;
+            border-radius: 4px;
+        }
+        
+        .bet-slip-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+        
+        .bet-amount {
+            display: flex;
+            align-items: center;
+            margin: 1rem 0;
+        }
+        
+        .bet-amount input {
+            flex: 1;
+            padding: 0.5rem;
+            border: 1px solid var(--secondary);
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            border-radius: 4px;
+            outline: none;
+        }
+        
+        .quick-amount {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .quick-amount button {
+            flex: 1;
+            padding: 0.3rem;
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            border: 1px solid var(--secondary);
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .quick-amount button:hover {
+            background-color: var(--secondary);
+        }
+        
+        .place-bet {
+            width: 100%;
+            padding: 0.8rem;
+            background-color: var(--accent);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .place-bet:hover {
+            opacity: 0.9;
+        }
+        
+        footer {
+            background-color: var(--bg-light);
+            padding: 2rem 0;
+            margin-top: 3rem;
+        }
+        
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+        
+        .footer-section h3 {
+            color: var(--accent);
+            margin-bottom: 1rem;
+            border-bottom: 1px solid var(--secondary);
+            padding-bottom: 0.5rem;
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .footer-links a {
+            color: var(--text-gray);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-links a:hover {
+            color: var(--accent);
+        }
+        
+        .copyright {
+            text-align: center;
+            padding: 1rem 0;
+            background-color: var(--bg-dark);
+            color: var(--text-gray);
+            font-size: 0.9rem;
+        }
+        
+        /* Auth modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            z-index: 1001;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal.active {
+            display: flex;
+        }
+        
+        .modal-content {
+            background-color: var(--bg-light);
+            border-radius: 8px;
+            width: 400px;
+            max-width: 90%;
+            overflow: hidden;
+        }
+        
+        .modal-header {
+            padding: 1rem;
+            border-bottom: 1px solid var(--secondary);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .close-modal {
+            background: none;
+            border: none;
+            color: var(--text-gray);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        
+        .modal-body {
+            padding: 1rem;
+        }
+        
+        /* Auth Form Styles */
+        .auth-container {
+            position: relative;
+            min-height: 400px;
+            width: 100%;
+            overflow: hidden;
+        }
+        
+        .auth-form {
+            position: absolute;
+            top: 0;
+            width: 100%;
+            transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+        
+        .signin-form {
+            left: 0;
+        }
+        
+        .signup-form {
+            left: 100%;
+        }
+        
+        .slide-signin .signin-form {
+            left: 0;
+        }
+        
+        .slide-signin .signup-form {
+            left: 100%;
+        }
+        
+        .slide-signup .signin-form {
+            left: -100%;
+        }
+        
+        .slide-signup .signup-form {
+            left: 0;
+        }
+        
+        .form-title {
+            text-align: center;
+            margin-bottom: 1.5rem;
+            color: var(--accent);
+            font-size: 1.5rem;
+        }
+        
+        .form-toggle {
+            text-align: center;
+            margin-top: 1rem;
+        }
+        
+        .form-toggle a {
+            color: var(--secondary);
+            text-decoration: none;
+            cursor: pointer;
+        }
+        
+        .form-toggle a:hover {
+            text-decoration: underline;
+        }
+        
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid var(--secondary);
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            border-radius: 4px;
+            outline: none;
+        }
+        
+        .form-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 1rem;
+        }
+        
+        .form-footer a {
+            color: var(--secondary);
+            text-decoration: none;
+        }
+        
+        .form-footer a:hover {
+            text-decoration: underline;
+        }
+        
+        /* Deposit Modal */
+        .deposit-options {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .deposit-option {
+            background-color: var(--bg-dark);
+            padding: 1rem;
+            border-radius: 4px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .deposit-option:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .deposit-option.active {
+            border: 2px solid var(--accent);
+        }
+        
+        .deposit-icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .deposit-amount {
+            margin-top: 1rem;
+        }
+        
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .user-balance {
+            background-color: var(--accent);
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+        
+        /* Tooltip for potential winnings */
+        .potential-winnings {
+            position: relative;
+            display: inline-block;
+            margin-left: 0.5rem;
+            cursor: pointer;
+        }
+        
+        .tooltip {
+            background-color: var(--accent);
+            color: white;
+            padding: 0.5rem;
+            border-radius: 4px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            transform: translateX(-50%);
+            white-space: nowrap;
+            visibility: hidden;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        .potential-winnings:hover .tooltip {
+            visibility: visible;
+            opacity: 1;
+        }
+        
+        /* Multi-bet switch */
+        .multi-bet-toggle {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+            cursor: pointer;
+        }
+        
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 30px;
+            margin-right: 10px;
+        }
+        
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: var(--bg-dark);
+            transition: .4s;
+            border-radius: 34px;
+            border: 1px solid var(--secondary);
+        }
+        
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 22px;
+            width: 22px;
+            left: 4px;
+            bottom: 3px;
+            background-color: var(--text-light);
+            transition: .4s;
+            border-radius: 50%;
+        }
+        
+        input:checked + .toggle-slider {
+            background-color: var(--accent);
+        }
+        
+        input:checked + .toggle-slider:before {
+            transform: translateX(30px);
+        }
+        
+        .notifications {
+            position: fixed;
+            top: 80px;
+            right: 20px;
+            z-index: 1002;
+        }
+        
+        .notification {
+            background-color: var(--bg-light);
+            color: var(--text-light);
+            padding: 1rem;
+            border-radius: 4px;
+            margin-bottom: 0.5rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            display: flex;
+            align-items: center;
+            animation: slideIn 0.3s forwards;
+        }
+        
+        .notification.success {
+            border-left: 4px solid var(--success);
+        }
+        
+        .notification.error {
+            border-left: 4px solid var(--danger);
+        }
+        
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            header nav {
+                display: none;
+            }
+            
+            .header-content {
+                justify-content: space-between;
+            }
+            
+            main {
+                grid-template-columns: 1fr;
+            }
+            
+            .sidebar {
+                margin-bottom: 1rem;
+            }
+            
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .bet-slip {
+                width: 100%;
+            }
+            
+            .deposit-options {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
 </head>
 <body>
-  <header>
-    <h1>⚽ Football Betting</h1>
-    <div id="authSection">
-      <input type="text" id="username" placeholder="Tên người dùng">
-      <input type="password" id="password" placeholder="Mật khẩu">
-      <button onclick="register()">Đăng ký</button>
-      <button onclick="login()">Đăng nhập</button>
+    <header>
+        <div class="header-content">
+            <div class="logo">
+                <div>FPT<span>Win</span></div>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#" class="active">Trang Chủ</a></li>
+                    <li><a href="#">Thể Thao</a></li>
+                    <li><a href="#">Sự Kiện Trực Tiếp</a></li>
+                    <li><a href="#">Khuyến Mãi</a></li>
+                    <li><a href="#">Hỗ Trợ</a></li>
+                </ul>
+            </nav>
+            <div class="auth-buttons" id="authButtons">
+                <!-- <a href="login.html"><button class="btn btn-outline" id="loginBtn">Đăng Nhập</button></a>
+                <button class="btn btn-primary" id="registerBtn">Đăng Ký</button> -->
+            </div>
+            <div class="user-info" id="userInfo" style="display: none;">
+                <div class="user-balance" id="userBalance">0₫</div>
+                <button class="btn btn-primary" id="depositBtn">Nạp Tiền</button>
+                <button class="btn btn-outline" id="logoutBtn">Đăng Xuất</button>
+            </div>
+        </div>
+    </header>
+
+    <div class="hero">
+        <div class="container">
+            <h1>Thưởng Thức Trận Đấu, Đặt Cược Chiến Thắng</h1>
+            <p>Hãy trở thành một phần của cộng đồng cá cược bóng đá hàng đầu Việt Nam. Tỷ lệ cược tốt nhất, thanh toán nhanh chóng và an toàn.</p>
+            <button class="btn btn-accent" id="heroActionBtn">Bắt Đầu Ngay</button>
+        </div>
     </div>
-    <div id="userInfo" style="display:none">
-      <p>👤 Xin chào, <span id="displayName"></span> | Số dư: <span id="balance">0</span>₫</p>
-      <input type="number" id="topupAmount" placeholder="Nhập số tiền nạp">
-      <button onclick="topUp()">Nạp tiền</button>
+
+    <div class="container">
+        <main>
+            <aside class="sidebar">
+                <h3>Các Môn Thể Thao</h3>
+                <ul class="sport-list">
+                    <li>
+                        <a href="#">
+                            <div class="sport-icon active">⚽</div>
+                            <span>Bóng Đá</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <div class="sport-icon">🏀</div>
+                            <span>Bóng Rổ</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <div class="sport-icon">🎾</div>
+                            <span>Quần Vợt</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <div class="sport-icon">🏎️</div>
+                            <span>Đua Xe F1</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <div class="sport-icon">🏒</div>
+                            <span>Khúc Côn Cầu</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <div class="sport-icon">🥊</div>
+                            <span>Quyền Anh</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <div class="sport-icon">🏉</div>
+                            <span>Rugby</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <div class="sport-icon">🏐</div>
+                            <span>Bóng Chuyền</span>
+                        </a>
+                    </li>
+                </ul>
+
+                <h3 style="margin-top: 1.5rem;">Giải Đấu Nổi Bật</h3>
+                <ul class="sport-list">
+                    <li><a href="#">Premier League</a></li>
+                    <li><a href="#">Champions League</a></li>
+                    <li><a href="#">La Liga</a></li>
+                    <li><a href="#">Serie A</a></li>
+                    <li><a href="#">Bundesliga</a></li>
+                    <li><a href="#">World Cup</a></li>
+                    <li><a href="#">AFC Cup</a></li>
+                    <li><a href="#">V-League</a></li>
+                </ul>
+            </aside>
+
+            <section class="content">
+                <div class="betting-header">
+                    <h2>Các Trận Đấu Sắp Diễn Ra</h2>
+                    <div class="filter-options">
+                        <button class="active">Hôm Nay</button>
+                        <button>Ngày Mai</button>
+                        <button>Tuần Này</button>
+                    </div>
+                </div>
+
+                <div class="match-list">
+                    <!-- Match 1 -->
+                    <div class="match-card">
+                        <div class="match-header">
+                            <div class="match-league">🏆 Premier League</div>
+                            <div class="match-time">Hôm nay - 22:00</div>
+                        </div>
+                        <div class="match-teams">
+                            <div class="team">
+                                <div class="team-logo"></div>
+                                <div class="team-name">Manchester United</div>
+                            </div>
+                            <div class="match-versus">VS</div>
+                            <div class="team">
+                                <div class="team-logo"></div>
+                                <div class="team-name">Liverpool</div>
+                            </div>
+                        </div>
+                        <div class="match-odds">
+                            <div class="odds-box" data-match="MU vs Liverpool" data-selection="Thắng chủ nhà" data-odds="2.50">
+                                <div class="odds-type">Thắng chủ nhà</div>
+                                <div class="odds-value">2.50</div>
+                            </div>
+                            <div class="odds-box" data-match="MU vs Liverpool" data-selection="Hòa" data-odds="3.20">
+                                <div class="odds-type">Hòa</div>
+                                <div class="odds-value">3.20</div>
+                            </div>
+                            <div class="odds-box" data-match="MU vs Liverpool" data-selection="Thắng đội khách" data-odds="2.70">
+                                <div class="odds-type">Thắng đội khách</div>
+                                <div class="odds-value">2.70</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Match 2 -->
+                    <div class="match-card">
+                        <div class="match-header">
+                            <div class="match-league">🏆 La Liga</div>
+                            <div class="match-time">Hôm nay - 23:30</div>
+                        </div>
+                        <div class="match-teams">
+                            <div class="team">
+                                <div class="team-logo"></div>
+                                <div class="team-name">Real Madrid</div>
+                            </div>
+                            <div class="match-versus">VS</div>
+                            <div class="team">
+                                <div class="team-logo"></div>
+                                <div class="team-name">Barcelona</div>
+                            </div>
+                        </div>
+                        <div class="match-odds">
+                            <div class="odds-box" data-match="Real Madrid vs Barcelona" data-selection="Thắng chủ nhà" data-odds="2.20">
+                                <div class="odds-type">Thắng chủ nhà</div>
+                                <div class="odds-value">2.20</div>
+                            </div>
+                            <div class="odds-box" data-match="Real Madrid vs Barcelona" data-selection="Hòa" data-odds="3.50">
+                                <div class="odds-type">Hòa</div>
+                                <div class="odds-value">3.50</div>
+                            </div>
+                            <div class="odds-box" data-match="Real Madrid vs Barcelona" data-selection="Thắng đội khách" data-odds="2.90">
+                                <div class="odds-type">Thắng đội khách</div>
+                                <div class="odds-value">2.90</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Match 3 -->
+                    <div class="match-card">
+                        <div class="match-header">
+                            <div class="match-league">🏆 Serie A</div>
+                            <div class="match-time">Ngày mai - 01:45</div>
+                        </div>
+                        <div class="match-teams">
+                            <div class="team">
+                                <div class="team-logo"></div>
+                                <div class="team-name">Juventus</div>
+                            </div>
+                            <div class="match-versus">VS</div>
+                            <div class="team">
+                                <div class="team-logo"></div>
+                                <div class="team-name">AC Milan</div>
+                            </div>
+                        </div>
+                        <div class="match-odds">
+                            <div class="odds-box" data-match="Juventus vs AC Milan" data-selection="Thắng chủ nhà" data-odds="1.95">
+                                <div class="odds-type">Thắng chủ nhà</div>
+                                <div class="odds-value">1.95</div>
+                            </div>
+                            <div class="odds-box" data-match="Juventus vs AC Milan" data-selection="Hòa" data-odds="3.40">
+                                <div class="odds-type">Hòa</div>
+                                <div class="odds-value">3.40</div>
+                            </div>
+                            <div class="odds-box" data-match="Juventus vs AC Milan" data-selection="Thắng đội khách" data-odds="3.80">
+                                <div class="odds-type">Thắng đội khách</div>
+                                <div class="odds-value">3.80</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Match 4 -->
+                    <div class="match-card">
+                        <div class="match-header">
+                            <div class="match-league">🏆 Bundesliga</div>
+                            <div class="match-time">Ngày mai - 20:30</div>
+                        </div>
+                        <div class="match-teams">
+                            <div class="team">
+                                <div class="team-logo"></div>
+                                <div class="team-name">Bayern Munich</div>
+                            </div>
+                            <div class="match-versus">VS</div>
+                            <div class="team">
+                                <div class="team-logo"></div>
+                                <div class="team-name">Borussia Dortmund</div>
+                            </div>
+                        </div>
+                        <div class="match-odds">
+                            <div class="odds-box" data-match="Bayern Munich vs Borussia Dortmund" data-selection="Thắng chủ nhà" data-odds="1.75">
+                                <div class="odds-type">Thắng chủ nhà</div>
+                                <div class="odds-value">1.75</div>
+                            </div>
+                            <div class="odds-box" data-match="Bayern Munich vs Borussia Dortmund" data-selection="Hòa" data-odds="3.80">
+                                <div class="odds-type">Hòa</div>
+                                <div class="odds-value">3.80</div>
+                            </div>
+                            <div class="odds-box" data-match="Bayern Munich vs Borussia Dortmund" data-selection="Thắng đội khách" data-odds="4.20">
+                                <div class="odds-type">Thắng đội khách</div>
+                                <div class="odds-value">4.20</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Match 5 -->
+                    <div class="match-card">
+                        <div class="match-header">
+                            <div class="match-league">🏆 V-League</div>
+                            <div class="match-time">Hôm nay - 19:00</div>
+                        </div>
+                        <div class="match-teams">
+                            <div class="team">
+                                <div class="team-logo"></div>
+                                <div class="team-name">Hà Nội FC</div>
+                            </div>
+                            <div class="match-versus">VS</div>
+                            <div class="team">
+                                <div class="team-logo"></div>
+                                <div class="team-name">HAGL</div>
+                            </div>
+                        </div>
+                        <div class="match-odds">
+                            <div class="odds-box" data-match="Hà Nội FC vs HAGL" data-selection="Thắng chủ nhà" data-odds="1.65">
+                                <div class="odds-type">Thắng chủ nhà</div>
+                                <div class="odds-value">1.65</div>
+                            </div>
+                            <div class="odds-box" data-match="Hà Nội FC vs HAGL" data-selection="Hòa" data-odds="3.40">
+                                <div class="odds-type">Hòa</div>
+                                <div class="odds-value">3.40</div>
+                            </div>
+                            <div class="odds-box" data-match="Hà Nội FC vs HAGL" data-selection="Thắng đội khách" data-odds="4.50">
+                                <div class="odds-type">Thắng đội khách</div>
+                                <div class="odds-value">4.50</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
     </div>
-  </header>
 
-  <section class="match-list">
-    <h2>🔥 Trận đấu hôm nay</h2>
-    <div id="matches"></div>
-  </section>
+    <div class="bet-slip" id="betSlip">
+        <div class="bet-slip-header" id="betSlipHeader">
+            <div>Phiếu Cược <span class="bet-count" id="betCount">0</span></div>
+            <div id="betSlipToggle">▼</div>
+        </div>
+        <div class="bet-slip-content">
+            <div class="bet-slip-tabs">
+                <div class="bet-slip-tab active" id="singleTab">Đơn lẻ</div>
+                <div class="bet-slip-tab" id="multiTab">Cược xiên</div>
+            </div>
+            
+            <div class="multi-bet-toggle" id="multiBetSection" style="display: none;">
+                <label class="toggle-switch">
+                    <input type="checkbox" id="multiBetToggle">
+                    <span class="toggle-slider"></span>
+                </label>
+                <div>Kích hoạt cược xiên</div>
+            </div>
+            
+            <div class="bet-slip-items" id="betSlipItems">
+                <!-- Bet items will be added here dynamically -->
+                <div class="empty-slip">Chưa có lựa chọn cược nào</div>
+            </div>
 
-  <section class="bet-form">
-    <h2>📝 Đặt cược</h2>
-    <form onsubmit="submitBet(event)">
-      <label>Số tiền cược:
-        <input type="number" id="amount" required min="1000">
-      </label>
-      <label>
-        Đội bạn chọn: <strong id="selectedTeam">Chưa chọn</strong>
-      </label>
-      <label>
-        Tỷ lệ cược: <strong id="selectedOdd">--</strong>
-      </label>
-      <button type="submit">Xác nhận cược</button>
-    </form>
-  </section>
+            <div class="bet-slip-summary">
+                <div class="bet-slip-row">
+                    <div>Số lượng cược:</div>
+                    <div id="totalBets">0</div>
+                </div>
+                <div class="bet-slip-row">
+                    <div>Tổng odds:</div>
+                    <div id="totalOdds">0.00</div>
+                </div>
+            </div>
 
-  <section class="history">
-    <h2>📊 Lịch sử cược</h2>
-    <ul id="historyList"></ul>
-  </section>
+            <div class="bet-amount">
+                <input type="number" id="betAmount" placeholder="Nhập số tiền cược" min="10000" step="10000">
+            </div>
 
-  <script>
-    const matchesData = [
-      { teams: "Manchester United vs Liverpool", odds: [1.8, 3.2, 2.1] },
-      { teams: "Real Madrid vs Barcelona", odds: [2.0, 3.0, 1.9] },
-      { teams: "PSG vs Bayern Munich", odds: [1.7, 3.3, 2.4] },
-      { teams: "AC Milan vs Inter Milan", odds: [2.1, 2.9, 2.1] },
-      { teams: "Arsenal vs Chelsea", odds: [1.9, 3.1, 2.2] }
-    ];
+            <div class="quick-amount">
+                <button class="quick-btn" data-amount="50000">50K</button>
+                <button class="quick-btn" data-amount="100000">100K</button>
+                <button class="quick-btn" data-amount="500000">500K</button>
+                <button class="quick-btn" data-amount="1000000">1M</button>
+            </div>
 
-    let selectedTeam = '';
-    let selectedOdd = 0;
-    let currentUser = null;
-    const users = {};
+            <div class="bet-slip-row">
+                <div>Tiền thắng có thể:</div>
+                <div id="potentialWin">0₫
+                    <div class="potential-winnings">
+                        <span>ⓘ</span>
+                        <span class="tooltip" id="winningDetails">Chi tiết tiền thắng</span>
+                    </div>
+                </div>
+            </div>
 
-    function renderMatches() {
-      const matchContainer = document.getElementById('matches');
-      matchesData.forEach(match => {
-        const matchDiv = document.createElement('div');
-        matchDiv.className = 'match';
-        const [odd1, oddDraw, odd2] = match.odds;
-        matchDiv.innerHTML = `
-          <span>${match.teams}</span>
-          <div class="odds">
-            <button onclick="placeBet('${match.teams.split(' vs ')[0]}', ${odd1})">${odd1}</button>
-            <button onclick="placeBet('Draw', ${oddDraw})">${oddDraw}</button>
-            <button onclick="placeBet('${match.teams.split(' vs ')[1]}', ${odd2})">${odd2}</button>
-          </div>`;
-        matchContainer.appendChild(matchDiv);
-      });
-    }
+            <button class="place-bet" id="placeBetBtn" disabled>Đặt Cược</button>
+        </div>
+    </div>
 
-    function placeBet(team, odd) {
-      selectedTeam = team;
-      selectedOdd = odd;
-      document.getElementById('selectedTeam').innerText = team;
-      document.getElementById('selectedOdd').innerText = odd;
-    }
+    <!-- Auth Modal -->
+    <div class="modal" id="authModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalTitle">Đăng Nhập / Đăng Ký</h3>
+                <button class="close-modal" id="closeAuthModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="auth-container" id="authContainer">
+                    <!-- Sign In Form -->
+                    <div class="auth-form signin-form">
+                        <h4 class="form-title">Đăng Nhập</h4>
+                        <div class="form-group">
+                            <label for="signinUsername">Tên đăng nhập</label>
+                            <input type="text" id="signinUsername" placeholder="Nhập tên đăng nhập">
+                        </div>
+                        <div class="form-group">
+                            <label for="signinPassword">Mật khẩu</label>
+                            <input type="password" id="signinPassword" placeholder="Nhập mật khẩu">
+                        </div>
+                        <button class="btn btn-primary" style="width: 100%;" id="signinSubmit">Đăng Nhập</button>
+                        <div class="form-toggle">
+                            Chưa có tài khoản? <a id="switchToSignup">Đăng ký ngay</a>
+                        </div>
+                    </div>
 
-    function register() {
-      const user = document.getElementById('username').value;
-      const pass = document.getElementById('password').value;
-      if (!users[user]) {
-        users[user] = { password: pass, balance: 0 };
-        alert('Đăng ký thành công!');
-      } else {
-        alert('Tên người dùng đã tồn tại!');
-      }
-    }
+                    <!-- Sign Up Form -->
+                    <div class="auth-form signup-form">
+                        <h4 class="form-title">Đăng Ký</h4>
+                        <div class="form-group">
+                            <label for="signupUsername">Tên đăng nhập</label>
+                            <input type="text" id="signupUsername" placeholder="Tạo tên đăng nhập">
+                        </div>
+                        <div class="form-group">
+                            <label for="signupEmail">Email</label>
+                            <input type="email" id="signupEmail" placeholder="Nhập email của bạn">
+                        </div>
+                        <div class="form-group">
+                            <label for="signupPassword">Mật khẩu</label>
+                            <input type="password" id="signupPassword" placeholder="Tạo mật khẩu">
+                        </div>
+                        <div class="form-group">
+                            <label for="signupConfirmPassword">Xác nhận mật khẩu</label>
+                            <input type="password" id="signupConfirmPassword" placeholder="Nhập lại mật khẩu">
+                        </div>
+                        <button class="btn btn-primary" style="width: 100%;" id="signupSubmit">Đăng Ký</button>
+                        <div class="form-toggle">
+                            Đã có tài khoản? <a id="switchToSignin">Đăng nhập</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-    function login() {
-      const user = document.getElementById('username').value;
-      const pass = document.getElementById('password').value;
-      if (users[user] && users[user].password === pass) {
-        currentUser = user;
-        document.getElementById('authSection').style.display = 'none';
-        document.getElementById('userInfo').style.display = 'block';
-        document.getElementById('displayName').innerText = user;
-        document.getElementById('balance').innerText = users[user].balance;
-      } else {
-        alert('Sai tên đăng nhập hoặc mật khẩu!');
-      }
-    }
+    <!-- Deposit Modal -->
+    <div class="modal" id="depositModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Nạp Tiền</h3>
+                <button class="close-modal" id="closeDepositModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <h4>Chọn phương thức thanh toán</h4>
+                <div class="deposit-options">
+                    <div class="deposit-option active" data-method="bank">
+                        <div class="deposit-icon">🏦</div>
+                        <div>Ngân hàng</div>
+                    </div>
+                    <div class="deposit-option" data-method="momo">
+                        <div class="deposit-icon">📱</div>
+                        <div>MoMo</div>
+                    </div>
+                    <div class="deposit-option" data-method="visa">
+                        <div class="deposit-icon">💳</div>
+                        <div>Visa/Mastercard</div>
+                    </div>
+                    <div class="deposit-option" data-method="crypto">
+                        <div class="deposit-icon">₿</div>
+                        <div>Crypto</div>
+                    </div>
+                </div>
 
-    function topUp() {
-      const amount = parseInt(document.getElementById('topupAmount').value);
-      if (!isNaN(amount) && currentUser) {
-        users[currentUser].balance += amount;
-        document.getElementById('balance').innerText = users[currentUser].balance;
-        alert(`Nạp ${amount}₫ thành công!`);
-      }
-    }
+                <div class="deposit-amount">
+                    <div class="form-group">
+                        <label for="depositAmount">Số tiền nạp</label>
+                        <input type="number" id="depositAmount" placeholder="Nhập số tiền" min="50000" step="50000">
+                    </div>
+                </div>
 
-    function submitBet(event) {
-      event.preventDefault();
-      const amount = parseInt(document.getElementById('amount').value);
-      if (!selectedTeam || !selectedOdd) {
-        alert('Vui lòng chọn trận và tỷ lệ cược.');
-        return;
-      }
-      if (!currentUser || users[currentUser].balance < amount) {
-        alert('Không đủ số dư hoặc chưa đăng nhập.');
-        return;
-      }
+                <div class="quick-amount">
+                    <button class="quick-deposit" data-amount="100000">100K</button>
+                    <button class="quick-deposit" data-amount="500000">500K</button>
+                    <button class="quick-deposit" data-amount="1000000">1M</button>
+                    <button class="quick-deposit" data-amount="5000000">5M</button>
+                </div>
 
-      users[currentUser].balance -= amount;
-      document.getElementById('balance').innerText = users[currentUser].balance;
-      const list = document.getElementById('historyList');
-      const item = document.createElement('li');
-      item.innerText = `${currentUser} đã cược ${amount}₫ cho ${selectedTeam} (tỷ lệ ${selectedOdd})`;
-      list.appendChild(item);
+                <button class="btn btn-success" style="width: 100%; margin-top: 1rem;" id="processDepositBtn">Tiếp Tục</button>
+            </div>
+        </div>
+    </div>
 
-      document.getElementById('amount').value = '';
-      selectedTeam = '';
-      selectedOdd = 0;
-      document.getElementById('selectedTeam').innerText = 'Chưa chọn';
-      document.getElementById('selectedOdd').innerText = '--';
-    }
+    <!-- Bank Transfer Modal -->
+    <div class="modal" id="bankTransferModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Chuyển khoản ngân hàng</h3>
+                <button class="close-modal" id="closeBankTransferModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Số tài khoản</label>
+                    <input type="text" value="19026458237" readonly>
+                </div>
+                <div class="form-group">
+                    <label>Tên ngân hàng</label>
+                    <input type="text" value="Techcombank" readonly>
+                </div>
+                <div class="form-group">
+                    <label>Chủ tài khoản</label>
+                    <input type="text" value="CONG TY TNHH BONGDAWIN" readonly>
+                </div>
+                <div class="form-group">
+                    <label>Số tiền</label>
+                    <input type="text" id="bankTransferAmount" readonly>
+                </div>
+                <div class="form-group">
+                    <label>Nội dung chuyển khoản</label>
+                    <input type="text" id="bankTransferCode" readonly>
+                </div>
+                <p style="margin-top: 1rem; color: var(--text-gray);">Vui lòng chuyển khoản với nội dung chính xác như trên. Tài khoản của bạn sẽ được cập nhật sau 1-5 phút.</p>
+                <button class="btn btn-success" style="width: 100%; margin-top: 1rem;" id="confirmBankTransferBtn">Tôi đã chuyển khoản</button>
+            </div>
+        </div>
+    </div>
 
-    window.onload = renderMatches;
-  </script>
-</body>
-</html>
+    <div class="notifications" id="notifications">
+        <!-- Notifications will be added here dynamically -->
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Về BongDaWin</h3>
+                <ul class="footer-links">
+                    <li><a href="#">Giới thiệu</a></li>
+                    <li><a href="#">Đối tác</a></li>
+                    <li><a href="#">Điều khoản sử dụng</a></li>
+                    <li><a href="#">Chính sách bảo mật</a></li>
+                    <li><a href="#">Trách nhiệm cá cược</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Hỗ Trợ Khách Hàng</h3>
+                <ul class="footer-links">
+                    <li><a href="#">Câu hỏi thường gặp</a></li>
+                    <li><a href="#">Hướng dẫn nạp tiền</a></li>
+                    <li><a href="#">Hướng dẫn rút tiền</a></li>
+                    <li><a href="#">Liên hệ</a></li>
+                    <li><a href="#">Thông tin liên lạc</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Phương Thức Thanh Toán</h3>
+                <ul class="footer-links">
+                    <li><a href="#">Ngân hàng</a></li>
+                    <li><a href="#">Ví điện tử</a></li>
+                    <li><a href="#">Thẻ tín dụng/ghi nợ</a></li>
+                    <li><a href="#">Tiền điện tử</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="copyright">
+            &copy; 2025 BongDaWin. Tất cả các quyền được bảo lưu.
+        </div>
+    </footer>
+
+    <script>
+        // Global variables
+        let isLoggedIn = false;
+        let userBalance = 0;
+        let selectedBets = [];
+        let isMultiBet = false;
+        
+        // DOM elements
+        const authButtons = document.getElementById('authButtons');
+        const userInfo = document.getElementById('userInfo');
+        const userBalanceElement = document.getElementById('userBalance');
+        const loginBtn = document.getElementById('loginBtn');
+        const registerBtn = document.getElementById('registerBtn');
+        const depositBtn = document.getElementById('depositBtn');
+        const logoutBtn = document.getElementById('logoutBtn');
+        const heroActionBtn = document.getElementById('heroActionBtn');
+        
+        // Auth Modal elements
+        const authModal = document.getElementById('authModal');
+        const closeAuthModal = document.getElementById('closeAuthModal');
+        const authContainer = document.getElementById('authContainer');
+        const switchToSignup = document.getElementById('switchToSignup');
+        const switchToSignin = document.getElementById('switchToSignin');
+        const signinSubmit = document.getElementById('signinSubmit');
+        const signupSubmit = document.getElementById('signupSubmit');
+        
+        // Deposit Modal elements
+        const depositModal = document.getElementById('depositModal');
+        const closeDepositModal = document.getElementById('closeDepositModal');
+        const processDepositBtn = document.getElementById('processDepositBtn');
+        const depositOptions = document.querySelectorAll('.deposit-option');
+        const quickDepositBtns = document.querySelectorAll('.quick-deposit');
+        const depositAmountInput = document.getElementById('depositAmount');
+        
+        // Bank Transfer Modal elements
+        const bankTransferModal = document.getElementById('bankTransferModal');
+        const closeBankTransferModal = document.getElementById('closeBankTransferModal');
+        const bankTransferAmount = document.getElementById('bankTransferAmount');
+        const bankTransferCode = document.getElementById('bankTransferCode');
+        const confirmBankTransferBtn = document.getElementById('confirmBankTransferBtn');
+        
+        // Bet Slip elements
+        const betSlip = document.getElementById('betSlip');
+        const betSlipHeader = document.getElementById('betSlipHeader');
+        const betSlipToggle = document.getElementById('betSlipToggle');
+        const betSlipItems = document.getElementById('betSlipItems');
+        const betCount = document.getElementById('betCount');
+        const totalBets = document.getElementById('totalBets');
+        const totalOdds = document.getElementById('totalOdds');
+        const betAmount = document.getElementById('betAmount');
+        const potentialWin = document.getElementById('potentialWin');
+        const winningDetails = document.getElementById('winningDetails');
+        const placeBetBtn = document.getElementById('placeBetBtn');
+        const quickAmountBtns = document.querySelectorAll('.quick-btn');
+        const singleTab = document.getElementById('singleTab');
+        const multiTab = document.getElementById('multiTab');
+        const multiBetSection = document.getElementById('multiBetSection');
+        const multiBetToggle = document.getElementById('multiBetToggle');
+        
+        // Match Odds elements
+        const oddsBoxes = document.querySelectorAll('.odds-box');
+        
+        // Notifications
+        const notifications = document.getElementById('notifications');
+        
+        // Initialize
+        function init() {
+            // Check if user is logged in (from localStorage)
+            checkLoginStatus();
+            
+            // Event listeners
+            addEventListeners();
+        }
+        
+        function checkLoginStatus() {
+            const storedUser = localStorage.getItem('user');
+            if (storedUser) {
+                const user = JSON.parse(storedUser);
+                isLoggedIn = true;
+                userBalance = user.balance || 0;
+                updateUI();
+            }
+        }
+        
+        function updateUI() {
+            if (isLoggedIn) {
+                authButtons.style.display = 'none';
+                userInfo.style.display = 'flex';
+                userBalanceElement.textContent = formatCurrency(userBalance);
+                heroActionBtn.textContent = 'Đặt Cược Ngay';
+                placeBetBtn.disabled = false;
+            } else {
+                authButtons.style.display = 'flex';
+                userInfo.style.display = 'none';
+                heroActionBtn.textContent = 'Bắt Đầu Ngay';
+                placeBetBtn.disabled = true;
+            }
+        }
+        
+        function addEventListeners() {
+            // Auth buttons
+            loginBtn.addEventListener('click', openLoginModal);
+            registerBtn.addEventListener('click', openRegisterModal);
+            closeAuthModal.addEventListener('click', closeModal);
+            switchToSignup.addEventListener('click', switchToSignupForm);
+            switchToSignin.addEventListener('click', switchToSigninForm);
+            signinSubmit.addEventListener('click', handleSignin);
+            signupSubmit.addEventListener('click', handleSignup);
+            logoutBtn.addEventListener('click', handleLogout);
+            
+            // Deposit modal
+            depositBtn.addEventListener('click', openDepositModal);
+            closeDepositModal.addEventListener('click', () => {
+                depositModal.classList.remove('active');
+            });
+            depositOptions.forEach(option => {
+                option.addEventListener('click', selectDepositMethod);
+            });
+            quickDepositBtns.forEach(btn => {
+                btn.addEventListener('click', setQuickDepositAmount);
+            });
+            processDepositBtn.addEventListener('click', processDeposit);
+            
+            // Bank Transfer Modal
+            closeBankTransferModal.addEventListener('click', () => {
+                bankTransferModal.classList.remove('active');
+            });
+            confirmBankTransferBtn.addEventListener('click', confirmBankTransfer);
+            
+            // Bet Slip
+            betSlipHeader.addEventListener('click', toggleBetSlip);
+            quickAmountBtns.forEach(btn => {
+                btn.addEventListener('click', setQuickBetAmount);
+            });
+            betAmount.addEventListener('input', updatePotentialWinnings);
+            placeBetBtn.addEventListener('click', placeBet);
+            
+            // Bet Tabs
+            singleTab.addEventListener('click', () => switchBetTab('single'));
+            multiTab.addEventListener('click', () => switchBetTab('multi'));
+            multiBetToggle.addEventListener('change', toggleMultiBet);
+            
+            // Odds selection
+            oddsBoxes.forEach(box => {
+                box.addEventListener('click', handleOddsSelection);
+            });
+            
+            // Hero action button
+            heroActionBtn.addEventListener('click', () => {
+                if (isLoggedIn) {
+                    // Scroll to matches
+                    document.querySelector('.content').scrollIntoView({ behavior: 'smooth' });
+                } else {
+                    openLoginModal();
+                }
+            });
+        }
+        
+        // Authentication functions
+        function openLoginModal() {
+            authContainer.classList.add('slide-signin');
+            authContainer.classList.remove('slide-signup');
+            authModal.classList.add('active');
+        }
+        
+        function openRegisterModal() {
+            authContainer.classList.add('slide-signup');
+            authContainer.classList.remove('slide-signin');
+            authModal.classList.add('active');
+        }
+        
+        function closeModal() {
+            authModal.classList.remove('active');
+        }
+        
+        function switchToSignupForm() {
+            authContainer.classList.remove('slide-signin');
+            authContainer.classList.add('slide-signup');
+        }
+        
+        function switchToSigninForm() {
+            authContainer.classList.remove('slide-signup');
+            authContainer.classList.add('slide-signin');
+        }
+        
+        function handleSignin() {
+            const username = document.getElementById('signinUsername').value;
+            const password = document.getElementById('signinPassword').value;
+            
+            // Simple validation
+            if (!username || !password) {
+                showNotification('Vui lòng nhập đầy đủ thông tin', 'error');
+                return;
+            }
+            
+            // Mock login (in real app, this would call an API)
+            setTimeout(() => {
+                isLoggedIn = true;
+                userBalance = 200000; // Initial balance
+                
+                // Store user in localStorage
+                localStorage.setItem('user', JSON.stringify({
+                    username: username,
+                    balance: userBalance
+                }));
+                
+                updateUI();
+                closeModal();
+                showNotification('Đăng nhập thành công!', 'success');
+            }, 1000);
+        }
+        
+        function handleSignup() {
+            const username = document.getElementById('signupUsername').value;
+            const email = document.getElementById('signupEmail').value;
+            const password = document.getElementById('signupPassword').value;
+            const confirmPassword = document.getElementById('signupConfirmPassword').value;
+            
+            // Simple validation
+            if (!username || !email || !password || !confirmPassword) {
+                showNotification('Vui lòng nhập đầy đủ thông tin', 'error');
+                return;
+            }
+            
+            if (password !== confirmPassword) {
+                showNotification('Mật khẩu không khớp', 'error');
+                return;
+            }}
+            
+            // Mock registration (in real app, this would call an API)
+            setTimeout(() => {
+                isLoggedIn = true;
+                userBalance = 100000; // Initial bonus for new users
+                
+                // Store user in localStorage
+                localStorage.setItem('user', JSON.stringify({
+                    username: username,
+                    email: email,
+                    balance: userBalance
+            })));
+        }
