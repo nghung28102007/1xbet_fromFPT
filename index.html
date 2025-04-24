@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Football Betting Demo</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>⚽ Football Betting</h1>
+    <div id="authSection">
+      <input type="text" id="username" placeholder="Tên người dùng">
+      <input type="password" id="password" placeholder="Mật khẩu">
+      <button onclick="register()">Đăng ký</button>
+      <button onclick="login()">Đăng nhập</button>
+    </div>
+    <div id="userInfo" style="display:none">
+      <p>👤 Xin chào, <span id="displayName"></span> | Số dư: <span id="balance">0</span>₫</p>
+      <input type="number" id="topupAmount" placeholder="Nhập số tiền nạp">
+      <button onclick="topUp()">Nạp tiền</button>
+    </div>
+  </header>
+
+  <section class="match-list">
+    <h2>🔥 Trận đấu hôm nay</h2>
+    <div id="matches"></div>
+  </section>
+
+  <section class="bet-form">
+    <h2>📝 Đặt cược</h2>
+    <form onsubmit="submitBet(event)">
+      <label>Số tiền cược:
+        <input type="number" id="amount" required min="1000">
+      </label>
+      <label>
+        Đội bạn chọn: <strong id="selectedTeam">Chưa chọn</strong>
+      </label>
+      <label>
+        Tỷ lệ cược: <strong id="selectedOdd">--</strong>
+      </label>
+      <button type="submit">Xác nhận cược</button>
+    </form>
+  </section>
+
+  <section class="history">
+    <h2>📊 Lịch sử cược</h2>
+    <ul id="historyList"></ul>
+  </section>
+
+  <script>
+    const matchesData = [
+      { teams: "Manchester United vs Liverpool", odds: [1.8, 3.2, 2.1] },
+      { teams: "Real Madrid vs Barcelona", odds: [2.0, 3.0, 1.9] },
+      { teams: "PSG vs Bayern Munich", odds: [1.7, 3.3, 2.4] },
+      { teams: "AC Milan vs Inter Milan", odds: [2.1, 2.9, 2.1] },
+      { teams: "Arsenal vs Chelsea", odds: [1.9, 3.1, 2.2] }
+    ];
+
+    let selectedTeam = '';
+    let selectedOdd = 0;
+    let currentUser = null;
+    const users = {};
+
+    function renderMatches() {
+      const matchContainer = document.getElementById('matches');
+      matchesData.forEach(match => {
+        const matchDiv = document.createElement('div');
+        matchDiv.className = 'match';
+        const [odd1, oddDraw, odd2] = match.odds;
+        matchDiv.innerHTML = `
+          <span>${match.teams}</span>
+          <div class="odds">
+            <button onclick="placeBet('${match.teams.split(' vs ')[0]}', ${odd1})">${odd1}</button>
+            <button onclick="placeBet('Draw', ${oddDraw})">${oddDraw}</button>
+            <button onclick="placeBet('${match.teams.split(' vs ')[1]}', ${odd2})">${odd2}</button>
+          </div>`;
+        matchContainer.appendChild(matchDiv);
+      });
+    }
+
+    function placeBet(team, odd) {
+      selectedTeam = team;
+      selectedOdd = odd;
+      document.getElementById('selectedTeam').innerText = team;
+      document.getElementById('selectedOdd').innerText = odd;
+    }
+
+    function register() {
+      const user = document.getElementById('username').value;
+      const pass = document.getElementById('password').value;
+      if (!users[user]) {
+        users[user] = { password: pass, balance: 0 };
+        alert('Đăng ký thành công!');
+      } else {
+        alert('Tên người dùng đã tồn tại!');
+      }
+    }
+
+    function login() {
+      const user = document.getElementById('username').value;
+      const pass = document.getElementById('password').value;
+      if (users[user] && users[user].password === pass) {
+        currentUser = user;
+        document.getElementById('authSection').style.display = 'none';
+        document.getElementById('userInfo').style.display = 'block';
+        document.getElementById('displayName').innerText = user;
+        document.getElementById('balance').innerText = users[user].balance;
+      } else {
+        alert('Sai tên đăng nhập hoặc mật khẩu!');
+      }
+    }
+
+    function topUp() {
+      const amount = parseInt(document.getElementById('topupAmount').value);
+      if (!isNaN(amount) && currentUser) {
+        users[currentUser].balance += amount;
+        document.getElementById('balance').innerText = users[currentUser].balance;
+        alert(`Nạp ${amount}₫ thành công!`);
+      }
+    }
+
+    function submitBet(event) {
+      event.preventDefault();
+      const amount = parseInt(document.getElementById('amount').value);
+      if (!selectedTeam || !selectedOdd) {
+        alert('Vui lòng chọn trận và tỷ lệ cược.');
+        return;
+      }
+      if (!currentUser || users[currentUser].balance < amount) {
+        alert('Không đủ số dư hoặc chưa đăng nhập.');
+        return;
+      }
+
+      users[currentUser].balance -= amount;
+      document.getElementById('balance').innerText = users[currentUser].balance;
+      const list = document.getElementById('historyList');
+      const item = document.createElement('li');
+      item.innerText = `${currentUser} đã cược ${amount}₫ cho ${selectedTeam} (tỷ lệ ${selectedOdd})`;
+      list.appendChild(item);
+
+      document.getElementById('amount').value = '';
+      selectedTeam = '';
+      selectedOdd = 0;
+      document.getElementById('selectedTeam').innerText = 'Chưa chọn';
+      document.getElementById('selectedOdd').innerText = '--';
+    }
+
+    window.onload = renderMatches;
+  </script>
+</body>
+</html>
